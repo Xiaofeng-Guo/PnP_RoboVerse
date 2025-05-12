@@ -173,7 +173,9 @@ def move_to_pose(
     curr_robot_q = obs.robots[robot.name].joint_pos
 
     seed_config = curr_robot_q[:, :curobo_n_dof].unsqueeze(1).tile([1, robot_ik._num_seeds, 1])
-
+    print("seed_config", seed_config.shape)
+    print("ee_pos_target", Pose(ee_pos_target, ee_quat_target).shape)
+    print(Pose(ee_pos_target, ee_quat_target))
     result = robot_ik.solve_batch(Pose(ee_pos_target, ee_quat_target), seed_config=seed_config)
 
     q = torch.zeros((scenario.num_envs, robot.num_joints), device="cuda:0")

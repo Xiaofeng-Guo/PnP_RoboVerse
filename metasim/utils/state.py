@@ -64,6 +64,10 @@ class RobotState:
     """Joint velocities target. Shape is (num_envs, num_joints)."""
     joint_effort_target: torch.Tensor
     """Joint effort targets. Shape is (num_envs, num_joints)."""
+    # scenario_status_names: list[str]
+    # """Scenario status names. This is for custom status."""
+    # scenario_status: torch.Tensor
+    # """Scenario status. Shape is (num_envs, num_statuses). This is for custom status."""
 
 
 @dataclass

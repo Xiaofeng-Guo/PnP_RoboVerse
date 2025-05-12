@@ -40,7 +40,6 @@ def check_asset(obj: BaseObjCfg, sim: Literal["isaaclab", "isaacgym", "pyrep", "
 @configclass
 class ScenarioCfg:
     """Scenario configuration."""
-
     task: BaseTaskCfg | None = None  # This item should be removed?
     """None means no task specified"""
     robot: BaseRobotCfg = MISSING
@@ -66,6 +65,10 @@ class ScenarioCfg:
     object_states: bool = False
     split: Literal["train", "val", "test", "all"] = "all"
     headless: bool = False
+    save_dir: str = None
+    load_dir: str = None
+
+
 
     def __post_init__(self):
         """Post-initialization configuration."""
@@ -82,7 +85,6 @@ class ScenarioCfg:
                 CylinderLightCfg(pos=(2.0, -2.0, 4.0), intensity=5e4),
                 CylinderLightCfg(pos=(2.0, 2.0, 4.0), intensity=5e4),
             ]
-
         ### Parse task and robot
         if isinstance(self.task, str):
             self.task = get_task(self.task)
