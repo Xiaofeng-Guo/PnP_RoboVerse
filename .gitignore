@@ -92,3 +92,6 @@ id_rsa*
 
 # for sapien
 *.convex.stl
+
+# unnecessary python files
+*.pyc
