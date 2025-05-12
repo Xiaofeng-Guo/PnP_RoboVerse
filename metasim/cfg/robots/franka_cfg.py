@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Literal
+
 from metasim.utils import configclass
 
 from .base_robot_cfg import BaseActuatorCfg, BaseRobotCfg
@@ -23,15 +25,15 @@ class FrankaCfg(BaseRobotCfg):
     enabled_gravity: bool = False
     enabled_self_collisions: bool = False
     actuators: dict[str, BaseActuatorCfg] = {
-        "panda_joint1": BaseActuatorCfg(velocity_limit=2.175),
-        "panda_joint2": BaseActuatorCfg(velocity_limit=2.175),
-        "panda_joint3": BaseActuatorCfg(velocity_limit=2.175),
-        "panda_joint4": BaseActuatorCfg(velocity_limit=2.175),
-        "panda_joint5": BaseActuatorCfg(velocity_limit=2.61),
-        "panda_joint6": BaseActuatorCfg(velocity_limit=2.61),
-        "panda_joint7": BaseActuatorCfg(velocity_limit=2.61),
-        "panda_finger_joint1": BaseActuatorCfg(velocity_limit=0.2, is_ee=True),
-        "panda_finger_joint2": BaseActuatorCfg(velocity_limit=0.2, is_ee=True),
+        "panda_joint1": BaseActuatorCfg(stiffness=1e5, damping=1e4, velocity_limit=2.175),
+        "panda_joint2": BaseActuatorCfg(stiffness=1e4, damping=1e3, velocity_limit=2.175),
+        "panda_joint3": BaseActuatorCfg(stiffness=1e5, damping=5e3, velocity_limit=2.175),
+        "panda_joint4": BaseActuatorCfg(stiffness=1e5, damping=1e4, velocity_limit=2.175),
+        "panda_joint5": BaseActuatorCfg(stiffness=400, damping=50, velocity_limit=2.61),
+        "panda_joint6": BaseActuatorCfg(stiffness=250, damping=50, velocity_limit=2.61),
+        "panda_joint7": BaseActuatorCfg(stiffness=800, damping=50, velocity_limit=2.61),
+        "panda_finger_joint1": BaseActuatorCfg(stiffness=1000, damping=100, velocity_limit=0.2, is_ee=True),
+        "panda_finger_joint2": BaseActuatorCfg(stiffness=1000, damping=100, velocity_limit=0.2, is_ee=True),
     }
     joint_limits: dict[str, tuple[float, float]] = {
         # "panda_joint1": (-2.8973, 2.8973),
@@ -63,6 +65,17 @@ class FrankaCfg(BaseRobotCfg):
         "panda_joint7": 0.785398,
         "panda_finger_joint1": 0.04,
         "panda_finger_joint2": 0.04,
+    }
+    control_type: dict[str, Literal["position", "effort"]] = {
+        "panda_joint1": "position",
+        "panda_joint2": "position",
+        "panda_joint3": "position",
+        "panda_joint4": "position",
+        "panda_joint5": "position",
+        "panda_joint6": "position",
+        "panda_joint7": "position",
+        "panda_finger_joint1": "position",
+        "panda_finger_joint2": "position",
     }
 
     # TODO: Make it more elegant

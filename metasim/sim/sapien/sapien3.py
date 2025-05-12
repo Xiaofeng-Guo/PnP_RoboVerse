@@ -47,14 +47,12 @@ class SingleSapien3Handler(BaseSimHandler):
         assert parse_version(sapien.__version__) < parse_version("4.0.0"), "Sapien3 is required"
         log.warning("Sapien3 is still under development, some metasim apis yet don't have sapien3 support")
         super().__init__(scenario)
-        self.headless = False  # XXX: no headless anyway
+        self.headless = scenario.headless
         self._actions_cache: list[Action] = []
 
     def _build_sapien(self):
         self.engine = sapien_core.Engine()  # Create a physical simulation engine
         self.renderer = sapien_core.SapienRenderer()  # Create a renderer
-
-        self.time_step = 1 / 100.0
 
         scene_config = sapien_core.SceneConfig()
         # scene_config.default_dynamic_friction = self.physical_params.dynamic_friction
@@ -69,7 +67,7 @@ class SingleSapien3Handler(BaseSimHandler):
 
         self.engine.set_renderer(self.renderer)
         self.scene = self.engine.create_scene(scene_config)
-        self.scene.set_timestep(self.time_step)
+        self.scene.set_timestep(self.scenario.sim_params.dt if self.scenario.sim_params.dt is not None else 1 / 100)
         ground_material = self.renderer.create_material()
         ground_material.base_color = np.array([202, 164, 114, 256]) / 256
         ground_material.specular = 0.5
